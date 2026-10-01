@@ -1,16 +1,20 @@
 // @ts-check
-import {defineConfig} from 'astro/config'
+import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
-import {unified} from '@astrojs/markdown-remark'
+import { unified } from '@astrojs/markdown-remark'
 import rehypeExpressiveCode from 'rehype-expressive-code'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import rehypeSlug from 'rehype-slug'
-import {remarkCallouts} from './src/plugins/remark-callouts.ts'
-import {remarkCodeGroups, rehypeCodeTabs} from './src/plugins/code-tabs.ts'
-import {rehypeExternalLinks} from './src/plugins/rehype-external-links.ts'
+import { remarkCallouts } from './src/plugins/remark-callouts.ts'
+import { remarkCodeGroups, rehypeCodeTabs } from './src/plugins/code-tabs.ts'
+import { rehypeExternalLinks } from './src/plugins/rehype-external-links.ts'
+
+import sitemap from '@astrojs/sitemap';
+import markdoc from '@astrojs/markdoc';
+import keystatic from '@keystatic/astro';
 
 const expressiveConfig = {
     themes: ['github-dark'],
@@ -71,7 +75,8 @@ const processor = unified({
 })
 
 export default defineConfig({
-    integrations: [react()],
+    site: 'https://nipunattri1.github.io',
+    integrations: [react(), sitemap(), markdoc(), keystatic()],
     vite: {
         plugins: [tailwindcss()],
     },

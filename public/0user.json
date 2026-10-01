@@ -28,7 +28,7 @@
         },
         {
             "label": "linkedin",
-            "text": "in/nipunattri1",
+            "text": "@nipunattri1",
             "href": "https://linkedin.com/in/nipunattri1",
             "target": "_blank",
             "rel": "noopener noreferrer"
@@ -151,12 +151,12 @@
         ],
         "education": [
             {
-                "degree": "B.Tech in Computer Science and Engineering (CGPA: 8.14)",
+                "degree": "B.Tech in Computer Science and Engineering",
                 "institution": "National Institute of Technology Karnataka, Surathkal",
                 "period": "Aug 2025 — Present"
             },
             {
-                "degree": "CBSE, Class XI and XII (Aggregate: 87%)",
+                "degree": "CBSE, Class XI and XII",
                 "institution": "Sri Guru Harkrishan Senior Secondary Public School, Chandigarh",
                 "period": "Aug 2023 — Mar 2025"
             }
