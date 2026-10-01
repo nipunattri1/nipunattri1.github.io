@@ -14,7 +14,6 @@ import { rehypeExternalLinks } from './src/plugins/rehype-external-links.ts'
 
 import sitemap from '@astrojs/sitemap';
 import markdoc from '@astrojs/markdoc';
-import keystatic from '@keystatic/astro';
 
 const expressiveConfig = {
     themes: ['github-dark'],
@@ -76,7 +75,7 @@ const processor = unified({
 
 export default defineConfig({
     site: 'https://nipunattri1.github.io',
-    integrations: [react(), sitemap(), markdoc(), keystatic()],
+    integrations: [react(), markdoc(), sitemap()], 
     vite: {
         plugins: [tailwindcss()],
     },
