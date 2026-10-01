@@ -1,0 +1,165 @@
+{
+    "name": "Nipun Attri",
+    "role": "Software Engineer | student@NITK Surathkal CSE",
+    "home": {
+        "bio": "I Love exploring systems, especially Linux, eBPF, networking, and file systems, plus devops.",
+        "note": "Got something interesting to explore? Let's talk"
+    },
+    "site": {
+        "name": "me@nipunattri",
+        "url": "https://nipunattri1.github.com",
+        "title": "Nipun Attri - Software Engineer",
+        "description": "Systems and application developer working with Linux, eBPF, networking, and observability tooling",
+        "locale": "en_US",
+        "ogImage": ""
+    },
+    "contacts": [
+        {
+            "label": "email",
+            "text": "nipun.acads@gmail.com",
+            "href": "mailto:nipun.acads@gmail.com"
+        },
+        {
+            "label": "github",
+            "text": "@nipunattri1",
+            "href": "https://github.com/nipunattri1",
+            "target": "_blank",
+            "rel": "noopener noreferrer"
+        },
+        {
+            "label": "linkedin",
+            "text": "in/nipunattri1",
+            "href": "https://linkedin.com/in/nipunattri1",
+            "target": "_blank",
+            "rel": "noopener noreferrer"
+        },
+        {
+            "label": "discord",
+            "text": "@rs_ty",
+            "href": "https://discord.com/users/1333061429212872829",
+            "target": "_blank",
+            "rel": "noopener noreferrer"
+        }
+    ],
+    "resume": {
+        "name": "Nipun Attri",
+        "role": "Software Engineer",
+        "bio": "Computer science undergraduate at NITK Surathkal with a systems focus: Linux, eBPF, networking, and file systems, plus hands-on experience in application performance, monitoring, and logging infrastructure. Focused on learning stuff at every layer.",
+        "downloads": {
+            "cv": {
+                "label": "download resume",
+                "text": "resume.pdf",
+                "href": "/resume.pdf",
+                "filename": "nipun-resume.pdf"
+            },
+            "pgp": {
+                "label": "download pgp",
+                "text": "publickey.asc",
+                "href": "/pgp/publickey.asc",
+                "filename": "publickey.asc"
+            }
+        },
+        "pgpFingerprint": "C76E 74BE 72D9 CBA4 A88B  4639 682B 935A 13AD 1F4C",
+        "experience": [
+            {
+                "role": "Application & Systems Developer",
+                "company": "IRIS, NITK",
+                "period": "Jan 2026 — Present",
+                "description": [
+                    "Profiled application infrastructure with Grafana k6 to identify performance bottlenecks.",
+                    "Added monitoring with Prometheus and Grafana to track system health and performance.",
+                    "Built a durable access-log pipeline using Vector and ClickHouse for centralized storage and analysis.",
+                    "Built native widgets, fixed bugs, and added new features needed by the application."
+                ]
+            }
+        ],
+        "projects": [
+            {
+                "name": "scx adaptive: Adaptive CPU Scheduler",
+                "stack": ["C", "eBPF", "sched_ext", "libbpf", "Linux"],
+                "href": "https://github.com/nipunattri1",
+                "period": "May 2026",
+                "description": [
+                    "Built an adaptive, multi-policy CPU scheduler on eBPF with FCFS, Round-Robin, and static Priority.",
+                    "Wrote a user-space controller that reads BPF map telemetry (CPU utilization, burst length, queue latency) and classifies workloads as CPU-bound, interactive, batch, or stress using exponential moving averages.",
+                    "Added hysteresis-gated policy switching to prevent thrashing on short spikes, plus SIGINT/SIGTERM handling that detaches cleanly and returns control to the default kernel scheduler.",
+                    "Benchmarked with schbench: adaptive mode cut p99 wakeup latency by 55% (31 µs vs 69 µs) and p99 request latency by 22% (12.6 ms vs 16.3 ms) compared with FCFS, with 1.5% to 1.8% higher throughput than all three fixed policies."
+                ]
+            },
+            {
+                "name": "eBPF XDP and TC Firewall",
+                "stack": ["C", "eBPF", "XDP", "TC", "libbpf", "Linux"],
+                "href": "https://github.com/nipunattri1",
+                "period": "Aug 2026",
+                "description": [
+                    "Built a kernel-space packet filter using XDP to drop traffic at the driver level, before SKB allocation.",
+                    "Implemented CIDR subnet blacklisting with a BPF LPM trie map and a CLI to block, unblock, and list networks at runtime.",
+                    "Added DDoS mitigation with per-source-IP TCP SYN and UDP rate limiting using atomic counters.",
+                    "Built stateful connection tracking with TC ingress and egress hooks, a 5-tuple connection map, and automatic UDP session timeouts.",
+                    "Added hot configuration reloading from INI files, so thresholds and blocked protocols update without detaching the programs."
+                ]
+            },
+            {
+                "name": "ext2 File System Reader and Editor",
+                "stack": ["C++", "Linux", "File Systems"],
+                "href": "https://github.com/nipunattri1",
+                "period": "Nov 2025",
+                "description": [
+                    "Built a CLI tool that parses a raw ext2 disk image, reading the superblock and block group descriptors and printing a dumpe2fs-style summary.",
+                    "Implemented ls, cd, and cat by walking directory entries and inodes, including files that span multiple blocks.",
+                    "Added file write support that updates data blocks on the disk image."
+                ]
+            }
+        ],
+        "skills": [
+            {
+                "category": "Languages",
+                "items": ["C", "C++", "Dart", "Bash"]
+            },
+            {
+                "category": "Systems",
+                "items": [
+                    "Linux",
+                    "eBPF",
+                    "XDP",
+                    "sched_ext",
+                    "libbpf",
+                    "File Systems",
+                    "Operating Systems",
+                    "Networking"
+                ]
+            },
+            {
+                "category": "DevOps & Observability",
+                "items": [
+                    "Docker",
+                    "Prometheus",
+                    "Grafana",
+                    "ClickHouse",
+                    "Logchef",
+                    "Vector"
+                ]
+            },
+            {
+                "category": "Tools",
+                "items": ["Git", "GitHub", "Make", "clang", "gcc", "bpftool"]
+            },
+            {
+                "category": "Frameworks",
+                "items": ["Flutter", "Ruby on Rails"]
+            }
+        ],
+        "education": [
+            {
+                "degree": "B.Tech in Computer Science and Engineering (CGPA: 8.14)",
+                "institution": "National Institute of Technology Karnataka, Surathkal",
+                "period": "Aug 2025 — Present"
+            },
+            {
+                "degree": "CBSE, Class XI and XII (Aggregate: 87%)",
+                "institution": "Sri Guru Harkrishan Senior Secondary Public School, Chandigarh",
+                "period": "Aug 2023 — Mar 2025"
+            }
+        ]
+    }
+}
