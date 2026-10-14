@@ -3,10 +3,10 @@ import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { TOC } from 'astro-toc';
-import { ChevronRight, ArrowLeft, ArrowRight, Calendar, Clock } from '@lucide/astro';
+import { ChevronRight, ArrowLeft, ArrowRight, Calendar, Clock, ArrowUp, BookOpen, Mail } from '@lucide/astro';
 import { slugifyTag } from '../../lib/tags';
 import { getArchivePosts } from '../../lib/archive_data';
-import { resume } from '../../lib/info';
+import siteInfo from '../../../public/0user.json';
 import '../../styles/archives.css';
 import 'katex/dist/katex.min.css';
 
@@ -37,7 +37,6 @@ const tocItems = safeHeadings
   .filter((i) => Boolean(i.url));
 
 const tagList: string[] = Array.isArray(tags) ? tags : [];
-const primaryTag = tagList.length > 0 ? tagList[0] : undefined;
 const displayTag = (t: string) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
 
 const formatDate = (date: Date) => {
@@ -46,11 +45,6 @@ const formatDate = (date: Date) => {
     month: 'long',
     day: 'numeric',
   });
-};
-const formatShortDate = (d: string) => {
-  const dt = new Date(d);
-  if (isNaN(dt.getTime())) return d;
-  return dt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
 const posts = await getArchivePosts();
@@ -62,6 +56,11 @@ const siteBase = Astro.site ?? new URL(Astro.url.origin);
 const pageUrl = new URL(Astro.url.pathname, siteBase).href;
 const absImage = ogImage ? new URL(ogImage, siteBase).href : undefined;
 const iso = date instanceof Date ? date.toISOString() : new Date(date).toISOString();
+
+// Safely extract user email and name directly from siteInfo JSON
+const emailObj = siteInfo.contacts?.find((c: any) => c.label?.toLowerCase() === 'email');
+const userEmail = emailObj?.text ?? '';
+const userName = siteInfo.name ?? 'Nipun Attri';
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -75,7 +74,7 @@ const jsonLd = JSON.stringify({
       "dateModified": iso,
       "image": absImage,
       "keywords": tagList.join(', ') || undefined,
-      "author": { "@type": "Person", "name": resume.name, "url": siteBase.href },
+      "author": { "@type": "Person", "name": userName, "url": siteBase.href },
     },
     {
       "@type": "BreadcrumbList",
@@ -143,6 +142,76 @@ const jsonLd = JSON.stringify({
           <article id="article-content" class="prose mt-8 max-w-none">
             <Content />
           </article>
+
+          <!-- Article Footer -->
+          <footer class="mt-14 pt-8 border-t border-border">
+            <!-- Small Compact Read More Button -->
+            <div class="mb-8 flex items-center justify-start">
+              <a
+                href="/archives"
+                class="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground shadow-xs transition-colors hover:border-accent/50 hover:bg-accent/5 hover:text-accent"
+              >
+                <BookOpen size={14} />
+                <span>Read more posts</span>
+              </a>
+            </div>
+
+            <!-- Post Navigation (Older / Newer) -->
+            <nav aria-label="Post navigation" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {older ? (
+                <a
+                  href={`/archives/${older.slug}`}
+                  class="group flex flex-col gap-1 rounded-lg border border-border bg-card p-4 transition-colors hover:border-accent/50 hover:bg-accent/5"
+                >
+                  <span class="flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-accent">
+                    <ArrowLeft size={14} /> Older Post
+                  </span>
+                  <span class="line-clamp-1 text-sm font-medium text-foreground group-hover:text-accent">
+                    {older.title}
+                  </span>
+                </a>
+              ) : <div />}
+
+              {newer ? (
+                <a
+                  href={`/archives/${newer.slug}`}
+                  class="group flex flex-col items-end gap-1 rounded-lg border border-border bg-card p-4 transition-colors hover:border-accent/50 hover:bg-accent/5 text-right sm:col-start-2"
+                >
+                  <span class="flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-accent">
+                    Newer Post <ArrowRight size={14} />
+                  </span>
+                  <span class="line-clamp-1 text-sm font-medium text-foreground group-hover:text-accent">
+                    {newer.title}
+                  </span>
+                </a>
+              ) : <div />}
+            </nav>
+
+            <!-- Copyright, Email, and Back-to-Top Footer -->
+            <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border/50 pt-6 sm:flex-row text-xs text-muted-foreground">
+              <div class="flex flex-wrap items-center gap-3">
+                <p>© {new Date().getFullYear()} {userName}. All rights reserved.</p>
+                {userEmail && (
+                  <a
+                    href={`mailto:${userEmail}`}
+                    class="inline-flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <Mail size={12} />
+                    <span>{userEmail}</span>
+                  </a>
+                )}
+              </div>
+
+              <button
+                id="back-to-top"
+                type="button"
+                class="inline-flex items-center gap-1.5 transition-colors hover:text-foreground cursor-pointer"
+              >
+                <span>Back to top</span>
+                <ArrowUp size={13} />
+              </button>
+            </div>
+          </footer>
         </div>
 
         {tocItems.length > 0 && (
@@ -371,5 +440,13 @@ const jsonLd = JSON.stringify({
       const min = Math.max(1, Math.round(words / 230));
       rt.textContent = `${min} min read`;
     })();
+
+    const btt = document.getElementById('back-to-top');
+    if (btt) {
+      btt.addEventListener('click', () => {
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+      });
+    }
   })();
 </script>
