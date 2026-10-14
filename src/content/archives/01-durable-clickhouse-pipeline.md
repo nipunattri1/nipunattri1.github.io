@@ -1,7 +1,7 @@
 ---
 title: "Monitoring and Observability with FOSS: A Durable Approach" 
 description: Creating a durable logging pipeline using Vector, ClickHouse, and Logchef.
-date: 2026-10-03
+date: 2026-10-15
 draft: false
 tags:
   - monitoring
@@ -94,3 +94,91 @@ Now, imagine we wanna make this pipeline durable. i.e. no log should be lost. we
 
 
 ## Putting it all together
+
+so a sample vector worker config would look like
+### config: vector (worker)
+
+```yaml
+sources:
+  logs:
+    type: file
+    include:
+      - /var/logs/iris/activity_*.log
+    read_from: end
+    fingerprint:
+      strategy: device_and_inode
+
+transforms:
+  access_log_json:
+    type: remap
+    inputs:
+      - logs
+    source: |-
+      . = parse_json!(.message)
+      .time = parse_timestamp(.created_at, format: "%+") ?? now()
+
+sinks:
+  aggregator:
+    type: vector
+    inputs:
+      - access_log_json
+    address: "$AGGREGATOR_ADDR"
+    acknowledgements:
+      enabled: true
+    buffer:
+      type: memory
+      max_events: 10000
+      when_full: block
+```
+
+### config: vector (aggregaor)
+
+```yaml
+data_dir: /var/lib/vector
+
+api:
+  enabled: true
+  address: 0.0.0.0:8686
+
+sources:
+  from_worker:
+    type: vector
+    address: 0.0.0.0:6000
+
+sinks:
+  ch:
+    type: clickhouse
+    inputs: [from_worker]
+    endpoint: "$CH_ENDPOINT"
+    auth:
+      strategy: basic
+      user: "$CH_USERNAME"
+      password: "$CH_PASSWORD"
+    database: logs
+    table: access_logs
+    format: json_each_row
+    compression: gzip
+    date_time_best_effort: true
+    skip_unknown_fields: true 
+    acknowledgements:
+      enabled: true
+    batch:
+      max_events: 50000
+      timeout_secs: 5
+    buffer:
+      type: disk
+      max_size: 5368709120 #5 GB        
+      when_full: block
+    request:
+      retry_max_duration_secs: 30
+```
+
+now connect your CH instance to your logchef using a read only user, and voilla you have a productionish logs pipeline ready.
+
+## Scaling above one instance
+
+Though, this is good enough for our usecase, few more imporvements can be done, Especially for the aggregator.
+
+[Aggregator proxy](https://vector.dev/img/going-to-prod/aggregator-overview.png)
+
+Start by scaling the number of aggregators behind Load balancers and scaling the CH instance we can easily scale this pipeline by alot. 
