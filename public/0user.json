@@ -2,7 +2,7 @@
     "name": "Nipun Attri",
     "role": "Software Engineer | student@NITK Surathkal CSE",
     "home": {
-        "bio": "I Love exploring systems, especially Linux, eBPF, networking, and file systems, plus devops.",
+        "bio": "I Explore systems, especially Linux, eBPF, networking, DevOps and everything weird inbetween.",
         "note": "Got something interesting to explore? Let's talk"
     },
     "site": {
@@ -11,7 +11,7 @@
         "title": "Nipun Attri - Software Engineer",
         "description": "Systems and application developer working with Linux, eBPF, networking, and observability tooling",
         "locale": "en_US",
-        "ogImage": ""
+        "ogImage": "/og/default.png"
     },
     "contacts": [
         {
@@ -44,7 +44,7 @@
     "resume": {
         "name": "Nipun Attri",
         "role": "Software Engineer",
-        "bio": "Computer science undergraduate at NITK Surathkal with a systems focus: Linux, eBPF, networking, and file systems, plus hands-on experience in application performance, monitoring, and logging infrastructure. Focused on learning stuff at every layer.",
+        "bio": "computer science undergraduate at NITK Surathkal with a systems focus: Linux, eBPF, networking, and file systems, plus hands-on experience in application Monitoring and Observability infrastructure.",
         "downloads": {
             "cv": {
                 "label": "download resume",
@@ -66,10 +66,10 @@
                 "company": "IRIS, NITK",
                 "period": "Jan 2026 — Present",
                 "description": [
-                    "Profiled application infrastructure with Grafana k6 to identify performance bottlenecks.",
-                    "Added monitoring with Prometheus and Grafana to track system health and performance.",
-                    "Built a durable access-log pipeline using Vector and ClickHouse for centralized storage and analysis.",
-                    "Built native widgets, fixed bugs, and added new features needed by the application."
+                    "Conducted load testing and infrastructure profiling with Grafana k6 to isolate bottlenecks and improve system reliability.",
+                    "Integrated Prometheus and Grafana monitoring, establishing baseline health metrics and alerting mechanisms.",
+                    "Engineered high-throughput log ingestion pipeline leveraging Vector and ClickHouse for performant log storage and analytics.",
+                    "Developed native application components and features, improving codebase reliability through targeted bug fixes"
                 ]
             }
         ],

@@ -6,6 +6,7 @@ import { TOC } from 'astro-toc';
 import { ChevronRight, ArrowLeft, ArrowRight, Calendar, Clock } from '@lucide/astro';
 import { slugifyTag } from '../../lib/tags';
 import { getArchivePosts } from '../../lib/archive_data';
+import { resume } from '../../lib/info';
 import '../../styles/archives.css';
 import 'katex/dist/katex.min.css';
 
@@ -18,7 +19,8 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { archive } = Astro.props as { archive: import('astro:content').CollectionEntry<'archives'> };
-const { title, description, date, tags, ogImage } = archive.data as any;
+const { title, description, date, tags, ogImage: customOg } = archive.data as any;
+const ogImage = customOg ?? `/og/${archive.id}.png`;
 
 const { Content, headings } = await render(archive);
 type H = { depth?: number; text?: string; title?: string; slug?: string };
@@ -56,10 +58,39 @@ const idx = posts.findIndex((p) => p.slug === archive.id);
 const older = idx >= 0 && idx < posts.length - 1 ? posts[idx + 1] : null;
 const newer = idx > 0 ? posts[idx - 1] : null;
 
-const pageUrl = Astro.url?.href ?? undefined;
+const siteBase = Astro.site ?? new URL(Astro.url.origin);
+const pageUrl = new URL(Astro.url.pathname, siteBase).href;
+const absImage = ogImage ? new URL(ogImage, siteBase).href : undefined;
+const iso = date instanceof Date ? date.toISOString() : new Date(date).toISOString();
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": pageUrl },
+      "headline": title,
+      "description": description,
+      "datePublished": iso,
+      "dateModified": iso,
+      "image": absImage,
+      "keywords": tagList.join(', ') || undefined,
+      "author": { "@type": "Person", "name": resume.name, "url": siteBase.href },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": siteBase.href },
+        { "@type": "ListItem", "position": 2, "name": "Archive", "item": new URL('/archives/', siteBase).href },
+        { "@type": "ListItem", "position": 3, "name": title, "item": pageUrl },
+      ],
+    },
+  ],
+}).replace(/</g, '\\u003c');
 ---
 
-<Base title={title} description={description} ogImage={ogImage}>
+<Base title={title} description={description} ogImage={ogImage} type="article" publishedTime={date} tags={tagList}>
+  <script slot="head" is:inline type="application/ld+json" set:html={jsonLd} />
   <div id="main-content" class="flex-1">
     <div class="mx-auto w-full max-w-6xl px-5 py-10 sm:px-6 sm:py-14">
       <div class="mx-auto xl:grid xl:grid-cols-[minmax(0,1fr)_15rem] xl:gap-14">
@@ -128,20 +159,6 @@ const pageUrl = Astro.url?.href ?? undefined;
     </div>
   </div>
 </Base>
-
-{pageUrl && (
-  <script is:inline type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": { "@type": "WebPage", "@id": pageUrl },
-    "headline": title,
-    "description": description,
-    "datePublished": (date as Date)?.toISOString?.() ?? undefined,
-    "dateModified": (date as Date)?.toISOString?.() ?? undefined,
-    "image": ogImage ?? undefined,
-    "articleSection": tagList
-  })} />
-)}
 
 <script is:inline>
   (() => {
