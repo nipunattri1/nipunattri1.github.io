@@ -66,18 +66,24 @@
                 "company": "IRIS, NITK",
                 "period": "Jan 2026 — Present",
                 "description": [
-                    "Conducted load testing and infrastructure profiling with Grafana k6 to isolate bottlenecks and improve system reliability.",
-                    "Integrated Prometheus and Grafana monitoring, establishing baseline health metrics and alerting mechanisms.",
-                    "Engineered high-throughput log ingestion pipeline leveraging Vector and ClickHouse for performant log storage and analytics.",
-                    "Developed native application components and features, improving codebase reliability through targeted bug fixes"
+                    "Load tested critical infrastructure with Grafana k6 for 1,000+ concurrent users.",
+                    "Integrated Prometheus and Grafana monitoring to track infrastructure health and performance.",
+                    "Built a durable logging pipeline with Vector and ClickHouse for centralized log analysis, sustaining 15,000+ logs/sec (non-critical) and 3,500+ logs/sec (critical) at under 0.001% error.",
+                    "Built native Android widgets, fixed bugs, and added Reachability and Health checks."
                 ]
             }
         ],
         "projects": [
             {
-                "name": "scx adaptive: Adaptive CPU Scheduler",
-                "stack": ["C", "eBPF", "sched_ext", "libbpf", "Linux"],
-                "href": "https://github.com/nipunattri1",
+                "name": "scx_adaptive: Adaptive CPU Scheduler",
+                "stack": [
+                    "C",
+                    "eBPF",
+                    "sched_ext",
+                    "libbpf",
+                    "Linux"
+                ],
+                "href": "https://github.com/nipunattri1/scx_adaptive",
                 "period": "May 2026",
                 "description": [
                     "Built an adaptive, multi-policy CPU scheduler on eBPF with FCFS, Round-Robin, and static Priority.",
@@ -88,8 +94,15 @@
             },
             {
                 "name": "eBPF XDP and TC Firewall",
-                "stack": ["C", "eBPF", "XDP", "TC", "libbpf", "Linux"],
-                "href": "https://github.com/nipunattri1",
+                "stack": [
+                    "C",
+                    "eBPF",
+                    "XDP",
+                    "TC",
+                    "libbpf",
+                    "Linux"
+                ],
+                "href": "https://github.com/nipunattri1/edgectl",
                 "period": "Aug 2026",
                 "description": [
                     "Built a kernel-space packet filter using XDP to drop traffic at the driver level, before SKB allocation.",
@@ -101,8 +114,12 @@
             },
             {
                 "name": "ext2 File System Reader and Editor",
-                "stack": ["C++", "Linux", "File Systems"],
-                "href": "https://github.com/nipunattri1",
+                "stack": [
+                    "C++",
+                    "Linux",
+                    "File Systems"
+                ],
+                "href": "https://github.com/nipunattri1/Assembler",
                 "period": "Nov 2025",
                 "description": [
                     "Built a CLI tool that parses a raw ext2 disk image, reading the superblock and block group descriptors and printing a dumpe2fs-style summary.",
@@ -114,7 +131,12 @@
         "skills": [
             {
                 "category": "Languages",
-                "items": ["C", "C++", "Dart", "Bash"]
+                "items": [
+                    "C",
+                    "C++",
+                    "Dart",
+                    "Bash"
+                ]
             },
             {
                 "category": "Systems",
@@ -142,11 +164,21 @@
             },
             {
                 "category": "Tools",
-                "items": ["Git", "GitHub", "Make", "clang", "gcc", "bpftool"]
+                "items": [
+                    "Git",
+                    "GitHub",
+                    "Make",
+                    "clang",
+                    "gcc",
+                    "bpftool"
+                ]
             },
             {
                 "category": "Frameworks",
-                "items": ["Flutter", "Ruby on Rails"]
+                "items": [
+                    "Flutter",
+                    "Ruby on Rails"
+                ]
             }
         ],
         "education": [
